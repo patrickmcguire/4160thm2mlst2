@@ -1,13 +1,16 @@
 all: program
 
-program: main.o Node.o
-	g++ main.o Node.o -o program
+program: Node.o Floor.o
+	g++ -o program main.o Floor.o Node.o
 
-main.o:
+main.o: main.cpp
 	g++ -c main.cpp
 
-Node.o:
-	g++ -c Node.cpp
+Floor.o: Floor.cpp Node.h Floor.h
+	g++ -c Floor.cpp Floor.h Node.h
+
+Node.o: Node.h Node.cpp
+	g++ -c Node.cpp Node.h 
 	
 clean:
 	rm main.o Node.o program

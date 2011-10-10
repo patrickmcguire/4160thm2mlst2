@@ -1,8 +1,8 @@
-#include "Node.h"
+#include "Floor.h"
 
-int main(int argc, const char* argv[]) {
+int main( int argc, const char* argv[] ) {
 
-	Node * head = new Node();
+	Node * f  = new Floor();
 
 	return 0;
 }

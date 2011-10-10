@@ -5,5 +5,10 @@ Node::Node() {
 }
 
 Node::~Node() {
+	children->erase(children->begin(), children->end());
 	delete children;
 }
+
+void Node::draw() {}
+
+
