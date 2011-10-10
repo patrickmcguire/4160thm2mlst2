@@ -7,6 +7,14 @@
 
 #include "Floor.h"
 
-void draw() {
+Floor::Floor() : Node() {
+
+}
+
+Floor::~Floor() {
+
+}
+
+void Floor::draw() {
 
 }

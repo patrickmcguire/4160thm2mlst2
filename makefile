@@ -1,16 +1,18 @@
+CFLAGS = -Wall
+
 all: program
 
-program: Node.o Floor.o
-	g++ -o program main.o Floor.o Node.o
+program: Node.o Floor.o main.o
+	g++ $(CFLAGS) -o program main.o Floor.o Node.o
 
-main.o: main.cpp
-	g++ -c main.cpp
+main.o: main.cpp Node.h Floor.h
+	g++ $(CFLAGS) -c main.cpp Node.h Floor.h
 
 Floor.o: Floor.cpp Node.h Floor.h
-	g++ -c Floor.cpp Floor.h Node.h
+	g++ $(CFLAGS) -c Floor.cpp Floor.h Node.h
 
 Node.o: Node.h Node.cpp
-	g++ -c Node.cpp Node.h 
+	g++ $(CFLAGS) -c Node.cpp Node.h 
 	
 clean:
-	rm main.o Node.o program
+	rm *.o *.gch program

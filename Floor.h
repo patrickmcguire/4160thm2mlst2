@@ -14,7 +14,9 @@
 class Floor : public Node {
 
 public:
+	Floor();
 	virtual void draw();
+	virtual ~Floor();
 };
 
 #endif /* FLOOR_H_ */
