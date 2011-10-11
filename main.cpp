@@ -30,6 +30,7 @@ void init() {
 void display() {
 	glClear( GL_COLOR_BUFFER_BIT );
 
+	glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 	int leftmost = -15;
 	int rightmost = 15;
 	int closest = -10;
@@ -40,19 +41,21 @@ void display() {
 
 	int iinc = (rightmost - leftmost) / 15;
 	int jinc = (furthest - closest) / 10;
-	int j = 0;
 
-	glBegin(GL_QUAD_STRIP);
-	glPolygonMode(GL_FRONT,GL_LINE);
-		glVertex2i(leftmost + iinc, closest);
-		glVertex2i(leftmost, closest);
-		glVertex2i(leftmost, closest + iinc);
-		glVertex2i(leftmost + iinc, closest + iinc);
-	glEnd();
-
+	for (int i = leftmost; i < rightmost; i = i + iinc) {
+		glBegin(GL_QUAD_STRIP);
+		glPolygonMode(GL_FRONT,GL_LINE);
+		for (int j = closest; j < furthest; j = j + jinc) {
+			glVertex3i(i,0,j);
+			if(i < i - iinc) {
+				glVertex3i(i + iinc, 0, j);
+			}
+		}
+		glEnd();
+	}
 
 	glPolygonMode(GL_FRONT,GL_FILL);
-
+	glFlush();
 
 	glutSwapBuffers();
 
