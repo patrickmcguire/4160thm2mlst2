@@ -16,6 +16,7 @@
 #define PI 3.14159265
 #define window_width 600
 #define window_height 600
+#define TOLERANCE 0.0001
 
 #define UTIL_H_
 

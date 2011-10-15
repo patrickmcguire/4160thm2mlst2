@@ -15,8 +15,10 @@ void _discrete2dCircle( float r, int slices, int selectedSlice, float& x, float&
 }
 
 // solid sphere implementation. Stacks are stashed along the z-axis. Slices are on the xy plane.
+// Uses mathematical normal rather than averaging faces
 void cg_SolidSphere( GLint slices, GLint stacks)
 {
+
 	for ( int i=0; i<stacks; i++ )
 		{
 			float currR = sin( PI/(float)stacks*i );
@@ -30,14 +32,39 @@ void cg_SolidSphere( GLint slices, GLint stacks)
 			for ( int j=0; j<=slices; j++ )
 			{
 				float lowX, lowY, highX, highY;
+				float * n = new float[3];
 				_discrete2dCircle( currR, slices, j, lowX, lowY );
 				_discrete2dCircle( nextR, slices, j, highX, highY );
 
 				glVertex3f( lowX, lowY, currZ );
+				cg_norm3( lowX, lowY, currZ, 0, 0, 0, n);
+				glNormal3fv(n);
 				glVertex3f( highX, highY, nextZ );
+				cg_norm3( highX, highY, nextZ, 0, 0, 0, n);
+				glNormal3fv(n);
+				delete(n);
 			}
 			glEnd();
 		}
+}
+
+/* Normalizes in place */
+void cg_norm3(float x, float y, float z, float originX, float originY, float originZ, float normal[])
+{
+	float norm = pow(x - originX, 2) + pow(y - originY, 2) + pow(z - originZ, 2);
+
+	if(abs(norm) > TOLERANCE)
+	{
+		normal[0] = (x - originX) / norm;
+		normal[1] = (y - originY) / norm;
+		normal[2] = (z - originZ) / norm;
+	}
+	else
+	{
+		normal[0] = 0;
+		normal[1] = 0;
+		normal[2] = 0;
+	}
 }
 
 
@@ -57,7 +84,9 @@ void drawFloor(void)
 		{
 			float currX = -15+j*2;
 			glVertex3f( currX, 0, currZ );
+			glNormal3f( 0, 1, 0);
 			glVertex3f( currX, 0, nextZ );
+			glNormal3f( 0, 1, 0);
 		}
 		glEnd();
 	}
@@ -103,6 +132,7 @@ void drawSphere()
 		cg_SolidSphere( 20, 20 );
 	glPopMatrix();
 }
+
 
 
 

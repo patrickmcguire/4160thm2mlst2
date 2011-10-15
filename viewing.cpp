@@ -13,6 +13,9 @@ void drawScene()
 {
 	glPushMatrix();
 		drawFloor();
+		drawTorus();
+		drawSphere();
+		drawBox_Teapot();
 	glPopMatrix();
 }
 
