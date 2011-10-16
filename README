@@ -1,0 +1,9 @@
+I made use of the example code. For the sphere normals I just enabled GL_NORMALIZE and gave the vector from the origin (where the sphere is translated and streched from) to the vertex and let the library take care of making it work.
+
+The sphere actually looks better with flat shading than smooth shading, which isn't particularly reassuring. I can't see any difference in the phong exponents at this point in time, if it turns out that I was supposed to apply them to all objects I think it will appear more.
+
+At the moment I use a context menu trigged by a left-click. It's pretty self explanatory. The lights toggle while everything else selects, so for the lights clicking something doesn't always lead to the same result while for the other submenus it does.
+
+I think that the red light source is just super dim, I can definitely see the effects of when it's on and off but just barely.
+
+I don't know how well phong is working... I'm somewhat skeptical. But I do what I can, I guess.

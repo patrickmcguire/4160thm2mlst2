@@ -102,12 +102,14 @@ void drawTorus()
 	float outerR = 3.0;
 	GLfloat specs[] = {0,0,0,1};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specs);
+	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 0);
 	glPushMatrix();
 		glTranslatef( -4.0, 1.0, 0.0 );
 		glRotatef( 90, 1, 0, 0 );
 		glColor3f( 0.5, 0.5, 1.0 );
 		glutSolidTorus ( innerR, outerR, 20, 20 );
 	glPopMatrix();
+	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, exponent);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specs);
 	/* This is all same as default but it's just a good habit*/
 }
@@ -115,7 +117,7 @@ void drawTorus()
 void drawBox_Teapot()
 {
 	float side = 6;
-	float glow[] = {0.5,0.5,0.5,1};
+	float glow[] = {0.0,0.0,0.0,0};
 	float defaults[] = {0,0,0,1};
 	glPushMatrix();
 		glTranslatef( 1.0, 3.0, 4.0 );
@@ -134,15 +136,15 @@ void drawBox_Teapot()
 void drawSphere()
 {
 	float specular[] = {1,1,1,1};
-	float defaultSpecular[] = {0.2,0.2,0.2,1};
-	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, exponent);
+	float defaultSpecular[] = {0.0,0.0,0.0,1};
+	//glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, exponent);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 	glPushMatrix();
 		glTranslatef( 1.0, 3.0, -3.0 );
 		glScalef( 1, 3, 1 );
 		cg_SolidSphere( 60, 20 );
 	glPopMatrix();
-	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 1);
+	//glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 1);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, defaultSpecular);
 }
 

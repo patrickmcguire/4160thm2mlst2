@@ -46,15 +46,19 @@ void menu(int value)
 			break;
 		case PHONG_2:
 			exponent = 2;
+			glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, exponent);
 			break;
 		case PHONG_8:
 			exponent = 8;
+			glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, exponent);
 			break;
 		case PHONG_16:
 			exponent = 16;
+			glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, exponent);
 			break;
 		case PHONG_64:
 			exponent = 64;
+			glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, exponent);
 			break;
 		default:
 			break;
