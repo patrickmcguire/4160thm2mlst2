@@ -18,6 +18,10 @@ void _discrete2dCircle( float r, int slices, int selectedSlice, float& x, float&
 // Uses mathematical normal rather than averaging faces
 void cg_SolidSphere( GLint slices, GLint stacks)
 {
+	/*
+	 * Normals don't work if it's stretched out of proportion, that's a hack
+	 * Use the normal = -1/partial thing. So z
+	 */
 
 	for ( int i=0; i<stacks; i++ )
 		{
@@ -32,17 +36,22 @@ void cg_SolidSphere( GLint slices, GLint stacks)
 			for ( int j=0; j<=slices; j++ )
 			{
 				float lowX, lowY, highX, highY;
-				float * n = new float[3];
 				_discrete2dCircle( currR, slices, j, lowX, lowY );
 				_discrete2dCircle( nextR, slices, j, highX, highY );
 
+				float nCurrZ = 1 / sin( PI/(float)stacks*i);
+				float nNextZ = 1 / sin( PI/(float)stacks*(i+1));
+
+				float nLowX = 1 / sin(lowX*PI/currR);
+				float nHighX = 1 / sin(highX*PI/nextR);
+
+				float nLowY = -1 / cos(lowY*PI/currR);
+				float nHighY = -1 / cos(highY*PI/nextR);
+
 				glVertex3f( lowX, lowY, currZ );
-				cg_norm3( lowX, lowY, currZ, 0, 0, 0, n);
-				glNormal3fv(n);
+				glNormal3f( nLowX, nLowY, nCurrZ);
 				glVertex3f( highX, highY, nextZ );
-				cg_norm3( highX, highY, nextZ, 0, 0, 0, n);
-				glNormal3fv(n);
-				delete(n);
+				glNormal3f( nHighX, nHighY, nNextZ);
 			}
 			glEnd();
 		}
