@@ -16,64 +16,55 @@ void _discrete2dCircle( float r, int slices, int selectedSlice, float& x, float&
 
 // solid sphere implementation. Stacks are stashed along the z-axis. Slices are on the xy plane.
 // Uses mathematical normal rather than averaging faces
+
+
+
 void cg_SolidSphere( GLint slices, GLint stacks)
 {
-	/*
-	 * Normals don't work if it's stretched out of proportion, that's a hack
-	 * Use the normal = -1/partial thing. So z
-	 */
+
+	float * current = new float[3];
+	float * next = new float[3];
+	float * normal = new float[3];
 
 	for ( int i=0; i<stacks; i++ )
+	{
+		float currR = sin( PI/(float)stacks*i );
+		float nextR = sin( PI/(float)stacks*(i+1) );
+
+		current[2] = cos( PI/(float)stacks*i );
+		next[2] = cos( PI/(float)stacks*(i+1) );
+
+		glBegin( GL_QUAD_STRIP );
+		glColor3f( 0.5, 0.2, 0.2 );
+		for ( int j=0; j<=slices; j++ )
 		{
-			float currR = sin( PI/(float)stacks*i );
-			float nextR = sin( PI/(float)stacks*(i+1) );
+			_discrete2dCircle( currR, slices, j, current[0], current[1] );
+			_discrete2dCircle( nextR, slices, j, next[0], next[1] );
 
-			float currZ = cos( PI/(float)stacks*i );
-			float nextZ = cos( PI/(float)stacks*(i+1) );
-
-			glBegin( GL_QUAD_STRIP );
-			glColor3f( 0.5, 0.2, 0.2 );
-			for ( int j=0; j<=slices; j++ )
-			{
-				float lowX, lowY, highX, highY;
-				_discrete2dCircle( currR, slices, j, lowX, lowY );
-				_discrete2dCircle( nextR, slices, j, highX, highY );
-
-				float nCurrZ = 1 / sin( PI/(float)stacks*i);
-				float nNextZ = 1 / sin( PI/(float)stacks*(i+1));
-
-				float nLowX = 1 / sin(lowX*PI/currR);
-				float nHighX = 1 / sin(highX*PI/nextR);
-
-				float nLowY = -1 / cos(lowY*PI/currR);
-				float nHighY = -1 / cos(highY*PI/nextR);
-
-				glVertex3f( lowX, lowY, currZ );
-				glNormal3f( nLowX, nLowY, nCurrZ);
-				glVertex3f( highX, highY, nextZ );
-				glNormal3f( nHighX, nHighY, nNextZ);
-			}
-			glEnd();
+			glVertex3fv( current );
+			cg_norm3( current, normal );
+			glNormal3fv( normal );
+			glVertex3fv( next );
+			cg_norm3( next, normal );
+			glNormal3fv( normal );
 		}
+		glEnd();
+		glFlush();
+	}
+	delete current;
+	delete next;
+	delete normal;
 }
 
 /* Normalizes in place */
-void cg_norm3(float x, float y, float z, float originX, float originY, float originZ, float normal[])
+void cg_norm3(float * vertex, float * normal)
 {
-	float norm = pow(x - originX, 2) + pow(y - originY, 2) + pow(z - originZ, 2);
+	float norm = vertex[0]*vertex[0] + vertex[1]*vertex[1] + vertex[2]*vertex[2];
 
-	if(abs(norm) > TOLERANCE)
-	{
-		normal[0] = (x - originX) / norm;
-		normal[1] = (y - originY) / norm;
-		normal[2] = (z - originZ) / norm;
-	}
-	else
-	{
-		normal[0] = 0;
-		normal[1] = 0;
-		normal[2] = 0;
-	}
+	normal[0] = vertex[0] / norm;
+	normal[1] = vertex[1] / norm;
+	normal[2] = vertex[2] / norm;
+
 }
 
 

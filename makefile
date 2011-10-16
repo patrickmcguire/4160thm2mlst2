@@ -3,15 +3,15 @@
 CPP = g++
 CFLAGS = -Wall -g
 LDFLAGS = -lglut -lGLU -lGL -lX11
-OBJS = main.o shapes.o viewing.o
-INCLUDE = shapes.h viewing.h
+OBJS = main.o shapes.o viewing.o menu.o
+INCLUDE = shapes.h viewing.h menu.h
 
 # Compile the program.
 
-all: t02m02
+all: t03m01
 
-t02m02: $(OBJS)
-	$(CPP) $(CFLAGS) -o t02m02 $(OBJS) $(LDFLAGS)
+t03m01: $(OBJS)
+	$(CPP) $(CFLAGS) -o t03m01 $(OBJS) $(LDFLAGS)
 
 main.o: main.cpp $(INCLUDE)
 	$(CPP) $(CFLAGS) -c main.cpp
@@ -22,5 +22,8 @@ shapes.o: shapes.cpp $(INCLUDE)
 viewing.o: viewing.cpp $(INCLUDE)
 	$(CPP) $(CFLAGS) -c viewing.cpp
 	
+menu.o: menu.cpp $(INCLUDE)
+	$(CPP) $(CFLAGS) -c menu.cpp
+	
 clean:
-	rm -f t02m02 $(OBJS)
+	rm -f t03m01 $(OBJS)
