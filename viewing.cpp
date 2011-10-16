@@ -7,6 +7,8 @@
 
 #include "viewing.h"
 #include "shapes.h"
+#include "util.h"
+#include <iostream>
 
 
 void drawScene()
@@ -34,8 +36,11 @@ void drawOrthoView( float angle, float x, float y, float z, int quadRow, int qua
 
 void drawSceneMatrix( int quadRow, int quadCol)
 {
-	glViewport(quadCol * window_width/2, (1 - quadRow) * window_height/2,
-				window_width/2, window_height/2);
+	int ww = glutGet( GLUT_WINDOW_WIDTH );
+	int wh = glutGet( GLUT_WINDOW_HEIGHT );
+
+	glViewport(quadCol * ww/2, (1 - quadRow) * wh/2,
+				ww/2, wh/2);
 	drawScene();
 }
 

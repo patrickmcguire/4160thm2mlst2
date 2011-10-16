@@ -1,6 +1,7 @@
 #include "util.h"
 #include "viewing.h"
 #include "menu.h"
+#include <iostream>
 
 void init();
 void display();
@@ -22,7 +23,8 @@ void clear()
 }
 
 // the main display function
-void display(void) {
+void display(void)
+{
 
 	clear();
 
@@ -37,6 +39,7 @@ void display(void) {
 // initialization function
 void init(void)
 {
+	glDisable( GL_LIGHT1 );
 	glClearColor(0.8, 0.8, 0.8, 1.0);
 	glMatrixMode(GL_PROJECTION);
 	glDepthFunc( GL_LESS );
@@ -47,35 +50,36 @@ void init(void)
 	//glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glLoadIdentity();
 	glEnable(GL_NORMALIZE);
-	glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
 
+	glEnable( GL_LIGHTING );
+
+	glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, 0);
 	glShadeModel (GL_SMOOTH);
-	glEnable(GL_DEPTH_TEST);
 
 	GLfloat light_ambient0[] = { 0.05, 0.05, 0.05, 1.0 };
 	GLfloat light_diffuse0[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat light_position0[] = { 0, 10000, 0 };
+	GLfloat light_position0[] = { 0.0, 10000.0, 0.0 };
 	GLfloat light_specular0[] = { 1.0, 1.0, 1.0, 1.0 };
-
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular0);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient0);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse0);
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position0);
+	glEnable( GL_LIGHT0 );
 
 	GLfloat light_ambient1[] = { 0.1, 0.00, 0.00, 1.0 };
 	GLfloat light_diffuse1[] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat light_specular1[] = { 1.0, 0, 1.0, 1.0 };
-	GLfloat light_position1[] = { 0, 10000, 0 };
-
+	GLfloat light_position1[] = { 0.0, 10000.0, 0.0 };
+	GLfloat spot_direction1[] = {0.0, 0.0, -1.0};
 	glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular1);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient1);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
 	glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direction1);
+	glEnable( GL_LIGHT1 );
 
-
-	glEnable( GL_LIGHTING );
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
+	glEnable( GL_DEPTH_TEST );
 	createMenu();
 }
 

@@ -6,6 +6,7 @@
  */
 
 #include "shapes.h"
+#include "util.h"
 
 // just a function that gives the x,y coordinates of a slice of a circle
 void _discrete2dCircle( float r, int slices, int selectedSlice, float& x, float& y )
@@ -42,11 +43,11 @@ void cg_SolidSphere( GLint slices, GLint stacks)
 			_discrete2dCircle( nextR, slices, j, next[0], next[1] );
 
 			glVertex3fv( current );
-			cg_norm3( current, normal );
-			glNormal3fv( normal );
+			//cg_norm3( current, normal );
+			glNormal3fv( current );
 			glVertex3fv( next );
-			cg_norm3( next, normal );
-			glNormal3fv( normal );
+			//cg_norm3( next, normal );
+			glNormal3fv( next );
 		}
 		glEnd();
 		glFlush();
@@ -99,42 +100,50 @@ void drawTorus()
 {
 	float innerR = 1.0;
 	float outerR = 3.0;
-	GLfloat specs[] = {1,1,1,1};
-
+	GLfloat specs[] = {0,0,0,1};
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specs);
 	glPushMatrix();
 		glTranslatef( -4.0, 1.0, 0.0 );
 		glRotatef( 90, 1, 0, 0 );
 		glColor3f( 0.5, 0.5, 1.0 );
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specs);
 		glutSolidTorus ( innerR, outerR, 20, 20 );
 	glPopMatrix();
-	specs = {0,0,0,1};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specs);
+	/* This is all same as default but it's just a good habit*/
 }
 
 void drawBox_Teapot()
 {
 	float side = 6;
-
+	float glow[] = {0.5,0.5,0.5,1};
+	float defaults[] = {0,0,0,1};
 	glPushMatrix();
 		glTranslatef( 1.0, 3.0, 4.0 );
 		glColor3f( 0.3, 1.0, 0.3 );
 		glutSolidCube( side );
 		glPushMatrix();
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, glow);
 			glTranslatef( 0.0, 5.2, 0.0 );
 			glColor3f( 0.3, 0.3, 0.3 );
 			glutSolidTeapot( side/2 );
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, defaults);
 		glPopMatrix();
 	glPopMatrix();
 }
 
 void drawSphere()
 {
+	float specular[] = {1,1,1,1};
+	float defaultSpecular[] = {0.2,0.2,0.2,1};
+	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, exponent);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 	glPushMatrix();
 		glTranslatef( 1.0, 3.0, -3.0 );
 		glScalef( 1, 3, 1 );
-		cg_SolidSphere( 20, 20 );
+		cg_SolidSphere( 60, 20 );
 	glPopMatrix();
+	glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 1);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, defaultSpecular);
 }
 
 

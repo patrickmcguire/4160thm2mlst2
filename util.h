@@ -20,4 +20,10 @@
 
 #define UTIL_H_
 
+using namespace std;
+
+static bool l1 = true;
+static bool l2 = true;
+static int exponent = 2;
+
 #endif /* UTIL_H_ */
