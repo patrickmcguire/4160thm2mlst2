@@ -99,13 +99,17 @@ void drawTorus()
 {
 	float innerR = 1.0;
 	float outerR = 3.0;
+	GLfloat specs[] = {1,1,1,1};
 
 	glPushMatrix();
 		glTranslatef( -4.0, 1.0, 0.0 );
 		glRotatef( 90, 1, 0, 0 );
 		glColor3f( 0.5, 0.5, 1.0 );
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specs);
 		glutSolidTorus ( innerR, outerR, 20, 20 );
 	glPopMatrix();
+	specs = {0,0,0,1};
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specs);
 }
 
 void drawBox_Teapot()

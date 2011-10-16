@@ -3,8 +3,8 @@
 void createMenu(void){
 
   int lights_id = glutCreateMenu(menu);
-  glutAddMenuEntry( "Lights on", LIGHTS_ON );
-  glutAddMenuEntry( "Lights off", LIGHTS_OFF );
+  glutAddMenuEntry( "Light one", LIGHT_ONE );
+  glutAddMenuEntry( "Light two", LIGHT_TWO );
 
   int shading_id = glutCreateMenu(menu);
   glutAddMenuEntry( "Flat shading", FLAT_SHADING );
@@ -23,11 +23,11 @@ void menu(int value)
 {
 	switch( value )
 	{
-		case LIGHTS_ON:
-			lightsOn();
+		case LIGHT_ONE:
+			lightOne();
 			break;
-		case LIGHTS_OFF:
-			lightsOff();
+		case LIGHT_TWO:
+			lightTwo();
 			break;
 		case FLAT_SHADING:
 			glShadeModel( GL_FLAT );
@@ -42,33 +42,32 @@ void menu(int value)
   glutPostRedisplay();
 }
 
-void lightsOn()
+void lightOne()
 {
-	glDisable(GL_LIGHT0);
+	if(l1)
+	{
+		glDisable( GL_LIGHT0 );
+		l1 = false;
+	}
+	else
+	{
+		glEnable(GL_LIGHT0);
+		l1 = true;
+	}
+}
 
-	GLfloat light_ambient1[] = { 0.05, 0.05, 0.05, 1.0 };
-	GLfloat light_diffuse1[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat light_position1[] = { 0, 10000, 0 };
-	GLfloat light_specular1[] = { 1.0, 1.0, 1.0, 1.0 };
-
-	glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular1);
-	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient1);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse1);
-	glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
-
-	GLfloat light_ambient2[] = { 0.1, 0.00, 0.00, 1.0 };
-	GLfloat light_diffuse2[] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat light_specular2[] = { 1.0, 0, 1.0, 1.0 };
-	GLfloat light_position2[] = { 0, 10000, 0 };
-
-	glLightfv(GL_LIGHT2, GL_SPECULAR, light_specular2);
-	glLightfv(GL_LIGHT2, GL_AMBIENT, light_ambient2);
-	glLightfv(GL_LIGHT2, GL_DIFFUSE, light_diffuse2);
-	glLightfv(GL_LIGHT2, GL_POSITION, light_position2);
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT1);
-	glEnable(GL_LIGHT2);
+void lightTwo()
+{
+	if(l2)
+	{
+		glDisable( GL_LIGHT1 );
+		l2 = false;
+	}
+	else
+	{
+		glEnable(GL_LIGHT1);
+		l2 = true;
+	}
 }
 
 void lightsOff()
